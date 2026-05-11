@@ -1,0 +1,6 @@
+tool: KEIL_C51
+fileName: 'ADCProgram.map'
+elfName: 'ADCProgram'
+compilerName: 'C51 COMPILER'
+compilerFullName: 'C51 COMPILER V9.60.7.0 - SN: K1DZC-F3UNHC'
+compilerPath: 'd:\ProgramFiles\KeilC51\C51\BIN\C51.exe'

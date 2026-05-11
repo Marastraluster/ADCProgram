@@ -1,0 +1,335 @@
+LX51 LINKER/LOCATER V4.66.100.0                                                         05/11/2026  19:00:23  PAGE 1
+
+
+LX51 LINKER/LOCATER V4.66.100.0, INVOKED BY:
+D:\PROGRAMFILES\KEILC51\C51\BIN\LX51.EXE .\BUILD\TARGET_1\.OBJ\STARTUP.O, .\BUILD\TARGET_1\.OBJ\SRC\PWM.O, .\BUILD\TARGE
+>> T_1\.OBJ\SRC\XPT2046.O, .\BUILD\TARGET_1\.OBJ\SRC\STRUTILS.O, .\BUILD\TARGET_1\.OBJ\SRC\UART.O, .\BUILD\TARGET_1\.OBJ
+>> \MAIN.O TO .\BUILD\TARGET_1\ADCPROGRAM PRINT (.\build\Target_1\ADCProgram.map) REMOVEUNUSED
+
+
+CPU MODE:     8051 MODE
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\BUILD\TARGET_1\.OBJ\STARTUP.O (?C_STARTUP)
+         COMMENT TYPE 1: A51 / ASM51 Assembler
+  .\BUILD\TARGET_1\.OBJ\SRC\PWM.O (PWM)
+         COMMENT TYPE 0: C51 V9.60.7.0
+  .\BUILD\TARGET_1\.OBJ\SRC\XPT2046.O (XPT2046)
+         COMMENT TYPE 0: C51 V9.60.7.0
+  .\BUILD\TARGET_1\.OBJ\SRC\STRUTILS.O (STRUTILS)
+         COMMENT TYPE 0: C51 V9.60.7.0
+  .\BUILD\TARGET_1\.OBJ\SRC\UART.O (UART)
+         COMMENT TYPE 0: C51 V9.60.7.0
+  .\BUILD\TARGET_1\.OBJ\MAIN.O (MAIN)
+         COMMENT TYPE 0: C51 V9.60.7.0
+  D:\PROGRAMFILES\KEILC51\C51\LIB\C51S.LIB (?C_INIT)
+         COMMENT TYPE 1: A51 / ASM51 Assembler
+  D:\PROGRAMFILES\KEILC51\C51\LIB\C51S.LIB (?C?CLDPTR)
+         COMMENT TYPE 1: A51 / ASM51 Assembler
+  D:\PROGRAMFILES\KEILC51\C51\LIB\C51S.LIB (?C?CSTOPTR)
+         COMMENT TYPE 1: A51 / ASM51 Assembler
+  D:\PROGRAMFILES\KEILC51\C51\LIB\C51S.LIB (?C?IMUL)
+         COMMENT TYPE 1: A51 / ASM51 Assembler
+  D:\PROGRAMFILES\KEILC51\C51\LIB\C51S.LIB (?C?ULDIV)
+         COMMENT TYPE 1: A51 / ASM51 Assembler
+  D:\PROGRAMFILES\KEILC51\C51\LIB\C51S.LIB (?C?LIMUL)
+         COMMENT TYPE 1: A51 / ASM51 Assembler
+
+
+ACTIVE MEMORY CLASSES OF MODULE:  .\BUILD\TARGET_1\ADCPROGRAM (?C_STARTUP)
+
+BASE        START       END         USED      MEMORY CLASS
+==========================================================
+C:000000H   C:000000H   C:00FFFFH   00056FH   CODE
+I:000000H   I:000000H   I:0000FFH   000001H   IDATA
+I:000000H   I:000000H   I:00007FH   00003FH   DATA
+
+
+MEMORY MAP OF MODULE:  .\BUILD\TARGET_1\ADCPROGRAM (?C_STARTUP)
+
+
+START     STOP      LENGTH    ALIGN  RELOC    MEMORY CLASS   SEGMENT NAME
+=========================================================================
+
+* * * * * * * * * * *   D A T A   M E M O R Y   * * * * * * * * * * * * *
+000000H   000007H   000008H   ---    AT..     DATA           "REG BANK 0"
+000008H   000024H   00001DH   BYTE   UNIT     DATA           _DATA_GROUP_
+000025H   000036H   000012H   BYTE   UNIT     DATA           ?DT?UART
+000037H   00003EH   000008H   BYTE   UNIT     DATA           ?DT?PWM
+00003FH   00003FH   000001H   BYTE   UNIT     IDATA          ?STACK
+
+* * * * * * * * * * *   C O D E   M E M O R Y   * * * * * * * * * * * * *
+000000H   000002H   000003H   ---    OFFS..   CODE           ?CO??C_STARTUP?0
+000003H   00000AH   000008H   BYTE   UNIT     CODE           ?PR?_UART_SENDBYTE?UART
+00000BH   00000DH   000003H   BYTE   OFFS..   CODE           ?PWM?0000B
+00000EH   00001FH   000012H   BYTE   UNIT     CODE           ?PR?PWM_ENABLE?PWM
+000020H   000022H   000003H   ---    ---      **GAP**
+000023H   000025H   000003H   BYTE   OFFS..   CODE           ?UART?00023
+LX51 LINKER/LOCATER V4.66.100.0                                                       05/11/2026  19:00:23  PAGE 2
+
+
+000026H   00016DH   000148H   BYTE   UNIT     CODE           ?C?LIB_CODE
+00016EH   0001F9H   00008CH   BYTE   UNIT     CODE           ?C_C51STARTUP
+0001FAH   000280H   000087H   BYTE   UNIT     CODE           ?PR?_BYTETOASCII?MAIN
+000281H   0002FCH   00007CH   BYTE   UNIT     CODE           ?PR?_SENDADCDATA?MAIN
+0002FDH   000368H   00006CH   BYTE   UNIT     CODE           ?PR?_PWM_SETFREQUENCY?PWM
+000369H   0003C1H   000059H   BYTE   UNIT     CODE           ?PR?_XPT2046_READAD?XPT2046
+0003C2H   00040EH   00004DH   BYTE   UNIT     CODE           ?PR?_STR_GETNUMBER?STRUTILS
+00040FH   000458H   00004AH   BYTE   UNIT     CODE           ?PR?_PWM_SETDUTY?PWM
+000459H   00049EH   000046H   BYTE   UNIT     CODE           ?PR?UART_ROUTINE?UART
+00049FH   0004D8H   00003AH   BYTE   UNIT     CODE           ?PR?MAIN?MAIN
+0004D9H   000510H   000038H   BYTE   UNIT     CODE           ?PR?PARSECOMMAND?MAIN
+000511H   00052EH   00001EH   BYTE   UNIT     CODE           ?PR?PWM_INIT?PWM
+00052FH   00054CH   00001EH   BYTE   UNIT     CODE           ?PR?TIMER0_ROUTINE?PWM
+00054DH   000567H   00001BH   BYTE   UNIT     CODE           ?PR?UART_INIT?UART
+000568H   000571H   00000AH   BYTE   UNIT     CODE           ?C_INITSEG
+
+* * * * * * * * *   R E M O V E D     S E G M E N T S   * * * * * * * *
+   *DEL*:           000008H   BYTE   UNIT     CODE           ?PR?PWM_DISABLE?PWM
+   *DEL*:           000058H   BYTE   UNIT     CODE           ?PR?_STR_COMPARE?STRUTILS
+   *DEL*:           000006H   BYTE   UNIT     DATA           ?DT?_STR_COMPARE?STRUTILS
+   *DEL*:           000025H   BYTE   UNIT     CODE           ?PR?_UART_SENDSTRING?UART
+   *DEL*:           000003H   BYTE   UNIT     DATA           ?DT?_UART_SENDSTRING?UART
+
+
+
+OVERLAY MAP OF MODULE:   .\BUILD\TARGET_1\ADCPROGRAM (?C_STARTUP)
+
+
+FUNCTION/MODULE               BIT_GROUP   DATA_GROUP 
+--> CALLED FUNCTION/MODULE   START  STOP  START  STOP
+=====================================================
+?C_C51STARTUP                ----- -----  ----- -----
+  +--> MAIN/MAIN
+  +--> ?C_INITSEG
+
+MAIN/MAIN                    ----- -----  0008H 000BH
+  +--> UART_INIT/UART
+  +--> PWM_INIT/PWM
+  +--> PWM_ENABLE/PWM
+  +--> _XPT2046_READAD/XPT2046
+  +--> _SENDADCDATA/MAIN
+  +--> PARSECOMMAND/MAIN
+
+UART_INIT/UART               ----- -----  ----- -----
+
+PWM_INIT/PWM                 ----- -----  ----- -----
+  +--> _PWM_SETFREQUENCY/PWM
+  +--> _PWM_SETDUTY/PWM
+
+_PWM_SETFREQUENCY/PWM        ----- -----  ----- -----
+
+_PWM_SETDUTY/PWM             ----- -----  ----- -----
+
+PWM_ENABLE/PWM               ----- -----  ----- -----
+
+_XPT2046_READAD/XPT2046      ----- -----  000CH 000DH
+
+_SENDADCDATA/MAIN            ----- -----  000CH 0021H
+  +--> _BYTETOASCII/MAIN
+  +--> _UART_SENDBYTE/UART
+
+_BYTETOASCII/MAIN            ----- -----  0022H 0024H
+
+_UART_SENDBYTE/UART          ----- -----  ----- -----
+
+LX51 LINKER/LOCATER V4.66.100.0                                                       05/11/2026  19:00:23  PAGE 3
+
+
+PARSECOMMAND/MAIN            ----- -----  000CH 000DH
+  +--> _STR_GETNUMBER/STRUTILS
+  +--> _PWM_SETFREQUENCY/PWM
+  +--> _PWM_SETDUTY/PWM
+
+_STR_GETNUMBER/STRUTILS      ----- -----  000EH 0012H
+
+?C_INITSEG                   ----- -----  ----- -----
+
+*** NEW ROOT ***************
+
+TIMER0_ROUTINE/PWM           ----- -----  ----- -----
+
+*** NEW ROOT ***************
+
+UART_ROUTINE/UART            ----- -----  ----- -----
+
+
+
+PUBLIC SYMBOLS OF MODULE:  .\BUILD\TARGET_1\ADCPROGRAM (?C_STARTUP)
+
+
+      VALUE       CLASS    TYPE      PUBLIC SYMBOL NAME
+      =================================================
+*DEL*:00000000H   DATA     BYTE      ?_Str_Compare?BYTE
+      01000026H   CODE     ---       ?C?CLDPTR
+      00000000H   NUMBER   ---       ?C?CODESEG
+      0100003FH   CODE     ---       ?C?CSTOPTR
+      01000061H   CODE     ---       ?C?IMUL
+      01000141H   CODE     ---       ?C?LIMUL
+      010000AFH   CODE     ---       ?C?ULDIV
+      00000000H   NUMBER   ---       ?C?XDATASEG
+      010001B5H   CODE     ---       ?C_START
+      01000000H   CODE     ---       ?C_STARTUP
+      0100040FH   CODE     ---       _PWM_SetDuty
+      010002FDH   CODE     ---       _PWM_SetFrequency
+*DEL*:00000000H   CODE     ---       _Str_Compare
+      010003C2H   CODE     ---       _Str_GetNumber
+      01000003H   CODE     ---       _UART_SendByte
+*DEL*:00000000H   CODE     ---       _UART_SendString
+      01000369H   CODE     ---       _XPT2046_ReadAD
+      0100049FH   CODE     ---       main
+*DEL*:00000000H   CODE     ---       PWM_Disable
+      0100000EH   CODE     ---       PWM_Enable
+      00000037H   DATA     BYTE      PWM_Enabled
+      01000511H   CODE     ---       PWM_Init
+      00000027H   DATA     ---       ReceiveBuf
+      00000026H   DATA     BYTE      ReceiveFlag
+      0100052FH   CODE     ---       Timer0_Routine
+      0100054DH   CODE     ---       UART_Init
+      01000459H   CODE     ---       UART_Routine
+
+
+
+SYMBOL TABLE OF MODULE:  .\BUILD\TARGET_1\ADCPROGRAM (?C_STARTUP)
+
+      VALUE       REP       CLASS    TYPE      SYMBOL NAME
+      ====================================================
+      ---         MODULE    ---      ---       ?C_STARTUP
+      01000000H   PUBLIC    CODE     ---       ?C_STARTUP
+
+      ---         MODULE    ---      ---       PWM
+      00000037H   PUBLIC    DATA     BYTE      PWM_Enabled
+      0100052FH   PUBLIC    CODE     ---       Timer0_Routine
+      0100000EH   PUBLIC    CODE     ---       PWM_Enable
+LX51 LINKER/LOCATER V4.66.100.0                                                       05/11/2026  19:00:23  PAGE 4
+
+
+      0100040FH   PUBLIC    CODE     ---       _PWM_SetDuty
+      010002FDH   PUBLIC    CODE     ---       _PWM_SetFrequency
+      01000511H   PUBLIC    CODE     ---       PWM_Init
+
+      01000511H   BLOCK     CODE     ---       LVL=0
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      010002FDH   BLOCK     CODE     ---       LVL=0
+      010002FDH   BLOCK     CODE     NEAR LAB  LVL=1
+      00000006H   SYMBOL    DATA     VOID      HighCount
+      00000004H   SYMBOL    DATA     VOID      LowCount
+      ---         BLOCKEND  ---      ---       LVL=1
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      0100040FH   BLOCK     CODE     ---       LVL=0
+      0100040FH   BLOCK     CODE     NEAR LAB  LVL=1
+      00000006H   SYMBOL    DATA     VOID      HighCount
+      00000004H   SYMBOL    DATA     VOID      LowCount
+      ---         BLOCKEND  ---      ---       LVL=1
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      0100000EH   BLOCK     CODE     ---       LVL=0
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      0100052FH   BLOCK     CODE     ---       LVL=0
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      ---         MODULE    ---      ---       XPT2046
+      01000369H   PUBLIC    CODE     ---       _XPT2046_ReadAD
+
+      01000369H   BLOCK     CODE     ---       LVL=0
+      0100036BH   BLOCK     CODE     NEAR LAB  LVL=1
+      00000003H   SYMBOL    DATA     VOID      i
+      0000000CH   SYMBOL    DATA     VOID      Data
+      ---         BLOCKEND  ---      ---       LVL=1
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      ---         MODULE    ---      ---       STRUTILS
+      010003C2H   PUBLIC    CODE     ---       _Str_GetNumber
+
+      010003C2H   BLOCK     CODE     ---       LVL=0
+      010003C8H   BLOCK     CODE     NEAR LAB  LVL=1
+      00000011H   SYMBOL    DATA     VOID      Result
+      ---         BLOCKEND  ---      ---       LVL=1
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      ---         MODULE    ---      ---       UART
+      00000027H   PUBLIC    DATA     ---       ReceiveBuf
+      00000026H   PUBLIC    DATA     BYTE      ReceiveFlag
+      01000459H   PUBLIC    CODE     ---       UART_Routine
+      01000003H   PUBLIC    CODE     ---       _UART_SendByte
+      0100054DH   PUBLIC    CODE     ---       UART_Init
+
+      0100054DH   BLOCK     CODE     ---       LVL=0
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      01000003H   BLOCK     CODE     ---       LVL=0
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      01000459H   BLOCK     CODE     ---       LVL=0
+      01000466H   BLOCK     CODE     NEAR LAB  LVL=1
+      00000007H   SYMBOL    DATA     VOID      ch
+      ---         BLOCKEND  ---      ---       LVL=1
+      ---         BLOCKEND  ---      ---       LVL=0
+
+LX51 LINKER/LOCATER V4.66.100.0                                                       05/11/2026  19:00:23  PAGE 5
+
+
+      ---         MODULE    ---      ---       MAIN
+      0100049FH   PUBLIC    CODE     ---       main
+
+      010001FAH   BLOCK     CODE     ---       LVL=0
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      01000202H   BLOCK     CODE     ---       LVL=0
+      01000208H   BLOCK     CODE     NEAR LAB  LVL=1
+      00000007H   SYMBOL    DATA     VOID      len
+      ---         BLOCKEND  ---      ---       LVL=1
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      01000281H   BLOCK     CODE     ---       LVL=0
+      01000285H   BLOCK     CODE     NEAR LAB  LVL=1
+      00000010H   SYMBOL    DATA     VOID      buf
+      00000020H   SYMBOL    DATA     VOID      pos
+      00000021H   SYMBOL    DATA     VOID      i
+      ---         BLOCKEND  ---      ---       LVL=1
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      010004D9H   BLOCK     CODE     ---       LVL=0
+      010004E3H   BLOCK     CODE     NEAR LAB  LVL=1
+      0000000CH   SYMBOL    DATA     VOID      Freq
+      0000000CH   SYMBOL    DATA     VOID      Duty
+      ---         BLOCKEND  ---      ---       LVL=1
+      010004FFH   BLOCK     CODE     NEAR LAB  LVL=1
+      0000000CH   SYMBOL    DATA     VOID      Duty
+      ---         BLOCKEND  ---      ---       LVL=1
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      0100049FH   BLOCK     CODE     ---       LVL=0
+      0100049FH   BLOCK     CODE     NEAR LAB  LVL=1
+      00000008H   SYMBOL    DATA     VOID      adc_ch0
+      00000009H   SYMBOL    DATA     VOID      adc_ch1
+      0000000AH   SYMBOL    DATA     VOID      adc_ch2
+      0000000BH   SYMBOL    DATA     VOID      adc_ch3
+      ---         BLOCKEND  ---      ---       LVL=1
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      ---         MODULE    ---      ---       ?C_INIT
+      010001B5H   PUBLIC    CODE     ---       ?C_START
+
+      ---         MODULE    ---      ---       ?C?CLDPTR
+      01000026H   PUBLIC    CODE     ---       ?C?CLDPTR
+
+      ---         MODULE    ---      ---       ?C?CSTOPTR
+      0100003FH   PUBLIC    CODE     ---       ?C?CSTOPTR
+
+      ---         MODULE    ---      ---       ?C?IMUL
+      01000061H   PUBLIC    CODE     ---       ?C?IMUL
+
+      ---         MODULE    ---      ---       ?C?ULDIV
+      010000AFH   PUBLIC    CODE     ---       ?C?ULDIV
+
+      ---         MODULE    ---      ---       ?C?LIMUL
+      01000141H   PUBLIC    CODE     ---       ?C?LIMUL
+
+Program Size: data=64.0 xdata=0 const=0 code=1391
+LX51 RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

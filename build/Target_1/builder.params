@@ -1,0 +1,76 @@
+{
+    "name": "ADCProgram",
+    "target": "Target_1",
+    "toolchain": "Keil_C51",
+    "toolchainLocation": "d:\\ProgramFiles\\KeilC51\\C51",
+    "toolchainCfgFile": "c:\\Users\\marti\\.vscode\\extensions\\cl.eide-3.26.9\\res\\data\\models/8051.keil.model.json",
+    "buildMode": "normal|multhread",
+    "showRepathOnLog": true,
+    "threadNum": 16,
+    "rootDir": "d:\\marti\\Documents\\HDU\\Program\\ADCProgram",
+    "dumpPath": "build\\Target_1",
+    "outDir": "build\\Target_1",
+    "incDirs": [
+        "../../../../../ProgramFiles/KeilC51/C51/INC/STC",
+        "../../../../../ProgramFiles/KeilC51/C51/INC"
+    ],
+    "libDirs": [],
+    "defines": [
+        "__UVISION_VERSION=526"
+    ],
+    "sourceList": [
+        "STARTUP.A51",
+        "Src/PWM.c",
+        "Src/XPT2046.c",
+        "Src/strutils.c",
+        "Src/uart.c",
+        "main.c"
+    ],
+    "alwaysInBuildSources": [],
+    "sourceParams": {},
+    "options": {
+        "version": 2,
+        "afterBuildTasks": [],
+        "asm-compiler": {},
+        "beforeBuildTasks": [],
+        "c/cpp-compiler": {
+            "optimization-level": "level-8",
+            "optimization-type": "SPEED",
+            "optimization": "8,SPEED"
+        },
+        "global": {
+            "ram-mode": "SMALL",
+            "rom-mode": "LARGE"
+        },
+        "linker": {
+            "misc-controls": "",
+            "output-format": "elf",
+            "remove-unused": true
+        }
+    },
+    "env": {
+        "workspaceFolder": "d:\\marti\\Documents\\HDU\\Program\\ADCProgram",
+        "workspaceFolderBasename": "ADCProgram",
+        "OutDir": "d:\\marti\\Documents\\HDU\\Program\\ADCProgram\\build\\Target_1",
+        "OutDirRoot": "build",
+        "OutDirBase": "build\\Target_1",
+        "ProjectName": "ADCProgram",
+        "ConfigName": "Target_1",
+        "ProjectRoot": "d:\\marti\\Documents\\HDU\\Program\\ADCProgram",
+        "ExecutableName": "d:\\marti\\Documents\\HDU\\Program\\ADCProgram\\build\\Target_1\\ADCProgram",
+        "ChipPackDir": "",
+        "ChipName": "",
+        "SYS_Platform": "win32",
+        "SYS_DirSep": "\\",
+        "SYS_DirSeparator": "\\",
+        "SYS_PathSep": ";",
+        "SYS_PathSeparator": ";",
+        "SYS_EOL": "\r\n",
+        "EIDE_BUILDER_DIR": "c:\\Users\\marti\\.vscode\\extensions\\cl.eide-3.26.9\\res\\tools\\win32\\unify_builder",
+        "EIDE_BINARIES_VER": "12.1.1",
+        "EIDE_MSYS": "C:\\Users\\marti\\.eide\\bin\\builder\\msys\\bin",
+        "EIDE_PY3_CMD": "C:\\Users\\marti\\.eide\\bin\\python36\\python3.exe",
+        "ToolchainRoot": "d:\\ProgramFiles\\KeilC51\\C51"
+    },
+    "sysPaths": []
+}

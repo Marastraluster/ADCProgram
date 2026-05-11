@@ -1,0 +1,537 @@
+C51 COMPILER V9.60.7.0   PWM                                                               05/11/2026 19:00:22 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE PWM
+OBJECT MODULE PLACED IN .\build\Target_1\.obj\Src\PWM.o
+COMPILER INVOKED BY: d:\ProgramFiles\KeilC51\C51\BIN\C51.exe .\Src\PWM.c OMF2 TABS(4) CODE NOCOND SYMBOLS INCDIR(../../.
+                    -./../../ProgramFiles/KeilC51/C51/INC/STC;../../../../../ProgramFiles/KeilC51/C51/INC) DEFINE(__UVISION_VERSION=526) OPTI
+                    -MIZE(8,SPEED) SMALL ROM(LARGE) PRINT(.\build\Target_1\.obj\Src\PWM.lst) OBJECT(.\build\Target_1\.obj\Src\PWM.o)
+
+line level    source
+
+   1          #include <REG52.H>
+   2          #include "Inc/PWM.h"
+   3          
+   4          sbit PWM_OUT = P1^0;
+   5          
+   6          static unsigned int TotalCount;
+   7          static unsigned int HighReload;
+   8          static unsigned int LowReload;
+   9          static unsigned char CurrentDuty;
+  10          unsigned char PWM_Enabled = 0;
+  11          
+  12          /**
+  13            * @brief  PWM初始化，使用定时器0模式1
+  14            * @param  无
+  15            * @retval 无
+  16            */
+  17          void PWM_Init(void)
+  18          {
+  19   1          TMOD &= 0xF0;
+  20   1          TMOD |= 0x01;
+  21   1          ET0 = 1;
+  22   1          TR0 = 0;
+  23   1          PWM_OUT = 0;
+  24   1          PWM_Enabled = 0;
+  25   1          CurrentDuty = 50;
+  26   1          PWM_SetFrequency(1000);
+  27   1          PWM_SetDuty(50);
+  28   1      }
+  29          
+  30          /**
+  31            * @brief  设置PWM频率
+  32            * @param  Freq 频率值(Hz)，范围100-5000
+  33            * @retval 无
+  34            */
+  35          void PWM_SetFrequency(unsigned int Freq)
+  36          {
+  37   1          unsigned int HighCount;
+  38   1          unsigned int LowCount;
+  39   1          if (Freq < 100) Freq = 100;
+  40   1          if (Freq > 5000) Freq = 5000;
+  41   1          EA = 0;
+  42   1          TotalCount = 921600UL / Freq;
+  43   1          HighCount = (unsigned int)((unsigned long)TotalCount * CurrentDuty / 100);
+  44   1          LowCount = TotalCount - HighCount;
+  45   1          if (HighCount == 0) HighCount = 1;
+  46   1          if (LowCount == 0) LowCount = 1;
+  47   1          HighReload = 65536UL - HighCount;
+  48   1          LowReload = 65536UL - LowCount;
+  49   1          EA = 1;
+  50   1      }
+  51          
+  52          /**
+  53            * @brief  设置PWM占空比
+C51 COMPILER V9.60.7.0   PWM                                                               05/11/2026 19:00:22 PAGE 2   
+
+  54            * @param  Duty 占空比(%)，范围0-100
+  55            * @retval 无
+  56            */
+  57          void PWM_SetDuty(unsigned char Duty)
+  58          {
+  59   1          unsigned int HighCount;
+  60   1          unsigned int LowCount;
+  61   1          if (Duty > 100) Duty = 100;
+  62   1          EA = 0;
+  63   1          CurrentDuty = Duty;
+  64   1          HighCount = (unsigned int)((unsigned long)TotalCount * Duty / 100);
+  65   1          LowCount = TotalCount - HighCount;
+  66   1          if (HighCount == 0) HighCount = 1;
+  67   1          if (LowCount == 0) LowCount = 1;
+  68   1          HighReload = 65536UL - HighCount;
+  69   1          LowReload = 65536UL - LowCount;
+  70   1          EA = 1;
+  71   1      }
+  72          
+  73          /**
+  74            * @brief  使能PWM输出
+  75            * @param  无
+  76            * @retval 无
+  77            */
+  78          void PWM_Enable(void)
+  79          {
+  80   1          PWM_Enabled = 1;
+  81   1          PWM_OUT = 1;
+  82   1          TH0 = HighReload >> 8;
+  83   1          TL0 = HighReload & 0xFF;
+  84   1          TR0 = 1;
+  85   1          EA = 1;
+  86   1      }
+  87          
+  88          /**
+  89            * @brief  禁用PWM输出
+  90            * @param  无
+  91            * @retval 无
+  92            */
+  93          void PWM_Disable(void)
+  94          {
+  95   1          TR0 = 0;
+  96   1          PWM_OUT = 0;
+  97   1          PWM_Enabled = 0;
+  98   1      }
+  99          
+ 100          /**
+ 101            * @brief  定时器0中断服务程序，PWM波形生成
+ 102            * @param  无
+ 103            * @retval 无
+ 104            */
+ 105          void Timer0_Routine(void) interrupt 1
+ 106          {
+ 107   1          if (PWM_OUT)
+ 108   1          {
+ 109   2              PWM_OUT = 0;
+ 110   2              TH0 = LowReload >> 8;
+ 111   2              TL0 = LowReload & 0xFF;
+ 112   2          }
+ 113   1          else
+ 114   1          {
+ 115   2              PWM_OUT = 1;
+C51 COMPILER V9.60.7.0   PWM                                                               05/11/2026 19:00:22 PAGE 3   
+
+ 116   2              TH0 = HighReload >> 8;
+ 117   2              TL0 = HighReload & 0xFF;
+ 118   2          }
+ 119   1      }
+C51 COMPILER V9.60.7.0   PWM                                                               05/11/2026 19:00:22 PAGE 4   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION PWM_Init (BEGIN)
+                                           ; SOURCE LINE # 17
+                                           ; SOURCE LINE # 18
+                                           ; SOURCE LINE # 19
+0000 5389F0            ANL     TMOD,#0F0H
+                                           ; SOURCE LINE # 20
+0003 438901            ORL     TMOD,#01H
+                                           ; SOURCE LINE # 21
+0006 D2A9              SETB    ET0
+                                           ; SOURCE LINE # 22
+0008 C28C              CLR     TR0
+                                           ; SOURCE LINE # 23
+000A C290              CLR     PWM_OUT
+                                           ; SOURCE LINE # 24
+000C E4                CLR     A
+000D F500        R     MOV     PWM_Enabled,A
+                                           ; SOURCE LINE # 25
+000F 750032      R     MOV     CurrentDuty,#032H
+                                           ; SOURCE LINE # 26
+0012 7FE8              MOV     R7,#0E8H
+0014 7E03              MOV     R6,#03H
+0016 120000      R     LCALL   _PWM_SetFrequency
+                                           ; SOURCE LINE # 27
+0019 7F32              MOV     R7,#032H
+001B 020000      R     LJMP    _PWM_SetDuty
+             ; FUNCTION PWM_Init (END)
+
+             ; FUNCTION _PWM_SetFrequency (BEGIN)
+                                           ; SOURCE LINE # 35
+;---- Variable 'Freq' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 36
+                                           ; SOURCE LINE # 39
+0000 C3                CLR     C
+0001 EF                MOV     A,R7
+0002 9464              SUBB    A,#064H
+0004 EE                MOV     A,R6
+0005 9400              SUBB    A,#00H
+0007 5004              JNC     ?C0002
+0009 7E00              MOV     R6,#00H
+000B 7F64              MOV     R7,#064H
+000D         ?C0002:
+                                           ; SOURCE LINE # 40
+000D D3                SETB    C
+000E EF                MOV     A,R7
+000F 9488              SUBB    A,#088H
+0011 EE                MOV     A,R6
+0012 9413              SUBB    A,#013H
+0014 4004              JC      ?C0003
+0016 7E13              MOV     R6,#013H
+0018 7F88              MOV     R7,#088H
+001A         ?C0003:
+                                           ; SOURCE LINE # 41
+001A C2AF              CLR     EA
+                                           ; SOURCE LINE # 42
+001C AB07              MOV     R3,AR7
+001E AA06              MOV     R2,AR6
+0020 E4                CLR     A
+0021 F9                MOV     R1,A
+0022 F8                MOV     R0,A
+C51 COMPILER V9.60.7.0   PWM                                                               05/11/2026 19:00:22 PAGE 5   
+
+0023 FF                MOV     R7,A
+0024 7E10              MOV     R6,#010H
+0026 7D0E              MOV     R5,#0EH
+0028 FC                MOV     R4,A
+0029 120000      E     LCALL   ?C?ULDIV
+002C 8E00        R     MOV     TotalCount,R6
+002E 8F00        R     MOV     TotalCount+01H,R7
+                                           ; SOURCE LINE # 43
+0030 AD00        R     MOV     R5,CurrentDuty
+0032 7C00              MOV     R4,#00H
+0034 120000      E     LCALL   ?C?LIMUL
+0037 E4                CLR     A
+0038 7B64              MOV     R3,#064H
+003A FA                MOV     R2,A
+003B F9                MOV     R1,A
+003C F8                MOV     R0,A
+003D 120000      E     LCALL   ?C?ULDIV
+;---- Variable 'HighCount' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 44
+0040 C3                CLR     C
+0041 E500        R     MOV     A,TotalCount+01H
+0043 9F                SUBB    A,R7
+0044 FD                MOV     R5,A
+0045 E500        R     MOV     A,TotalCount
+0047 9E                SUBB    A,R6
+0048 FC                MOV     R4,A
+;---- Variable 'LowCount' assigned to Register 'R4/R5' ----
+                                           ; SOURCE LINE # 45
+0049 EF                MOV     A,R7
+004A 4E                ORL     A,R6
+004B 7003              JNZ     ?C0004
+004D FE                MOV     R6,A
+004E 7F01              MOV     R7,#01H
+0050         ?C0004:
+                                           ; SOURCE LINE # 46
+0050 ED                MOV     A,R5
+0051 4C                ORL     A,R4
+0052 7003              JNZ     ?C0005
+0054 FC                MOV     R4,A
+0055 7D01              MOV     R5,#01H
+0057         ?C0005:
+                                           ; SOURCE LINE # 47
+0057 C3                CLR     C
+0058 E4                CLR     A
+0059 9F                SUBB    A,R7
+005A F500        R     MOV     HighReload+01H,A
+005C E4                CLR     A
+005D 9E                SUBB    A,R6
+005E F500        R     MOV     HighReload,A
+                                           ; SOURCE LINE # 48
+0060 C3                CLR     C
+0061 E4                CLR     A
+0062 9D                SUBB    A,R5
+0063 F500        R     MOV     LowReload+01H,A
+0065 E4                CLR     A
+0066 9C                SUBB    A,R4
+0067 F500        R     MOV     LowReload,A
+                                           ; SOURCE LINE # 49
+0069 D2AF              SETB    EA
+                                           ; SOURCE LINE # 50
+006B 22                RET     
+             ; FUNCTION _PWM_SetFrequency (END)
+C51 COMPILER V9.60.7.0   PWM                                                               05/11/2026 19:00:22 PAGE 6   
+
+
+             ; FUNCTION _PWM_SetDuty (BEGIN)
+                                           ; SOURCE LINE # 57
+;---- Variable 'Duty' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 58
+                                           ; SOURCE LINE # 61
+0000 EF                MOV     A,R7
+0001 D3                SETB    C
+0002 9464              SUBB    A,#064H
+0004 4002              JC      ?C0007
+0006 7F64              MOV     R7,#064H
+0008         ?C0007:
+                                           ; SOURCE LINE # 62
+0008 C2AF              CLR     EA
+                                           ; SOURCE LINE # 63
+000A 8F00        R     MOV     CurrentDuty,R7
+                                           ; SOURCE LINE # 64
+000C AC00        R     MOV     R4,TotalCount
+000E AD00        R     MOV     R5,TotalCount+01H
+0010 7E00              MOV     R6,#00H
+0012 120000      E     LCALL   ?C?LIMUL
+0015 E4                CLR     A
+0016 7B64              MOV     R3,#064H
+0018 FA                MOV     R2,A
+0019 F9                MOV     R1,A
+001A F8                MOV     R0,A
+001B 120000      E     LCALL   ?C?ULDIV
+;---- Variable 'HighCount' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 65
+001E C3                CLR     C
+001F E500        R     MOV     A,TotalCount+01H
+0021 9F                SUBB    A,R7
+0022 FD                MOV     R5,A
+0023 E500        R     MOV     A,TotalCount
+0025 9E                SUBB    A,R6
+0026 FC                MOV     R4,A
+;---- Variable 'LowCount' assigned to Register 'R4/R5' ----
+                                           ; SOURCE LINE # 66
+0027 EF                MOV     A,R7
+0028 4E                ORL     A,R6
+0029 7003              JNZ     ?C0008
+002B FE                MOV     R6,A
+002C 7F01              MOV     R7,#01H
+002E         ?C0008:
+                                           ; SOURCE LINE # 67
+002E ED                MOV     A,R5
+002F 4C                ORL     A,R4
+0030 7003              JNZ     ?C0009
+0032 FC                MOV     R4,A
+0033 7D01              MOV     R5,#01H
+0035         ?C0009:
+                                           ; SOURCE LINE # 68
+0035 C3                CLR     C
+0036 E4                CLR     A
+0037 9F                SUBB    A,R7
+0038 F500        R     MOV     HighReload+01H,A
+003A E4                CLR     A
+003B 9E                SUBB    A,R6
+003C F500        R     MOV     HighReload,A
+                                           ; SOURCE LINE # 69
+003E C3                CLR     C
+003F E4                CLR     A
+C51 COMPILER V9.60.7.0   PWM                                                               05/11/2026 19:00:22 PAGE 7   
+
+0040 9D                SUBB    A,R5
+0041 F500        R     MOV     LowReload+01H,A
+0043 E4                CLR     A
+0044 9C                SUBB    A,R4
+0045 F500        R     MOV     LowReload,A
+                                           ; SOURCE LINE # 70
+0047 D2AF              SETB    EA
+                                           ; SOURCE LINE # 71
+0049 22                RET     
+             ; FUNCTION _PWM_SetDuty (END)
+
+             ; FUNCTION PWM_Enable (BEGIN)
+                                           ; SOURCE LINE # 78
+                                           ; SOURCE LINE # 79
+                                           ; SOURCE LINE # 80
+0000 750001      R     MOV     PWM_Enabled,#01H
+                                           ; SOURCE LINE # 81
+0003 D290              SETB    PWM_OUT
+                                           ; SOURCE LINE # 82
+0005 E500        R     MOV     A,HighReload
+0007 F58C              MOV     TH0,A
+                                           ; SOURCE LINE # 83
+0009 E500        R     MOV     A,HighReload+01H
+000B F58A              MOV     TL0,A
+                                           ; SOURCE LINE # 84
+000D D28C              SETB    TR0
+                                           ; SOURCE LINE # 85
+000F D2AF              SETB    EA
+                                           ; SOURCE LINE # 86
+0011 22                RET     
+             ; FUNCTION PWM_Enable (END)
+
+             ; FUNCTION PWM_Disable (BEGIN)
+                                           ; SOURCE LINE # 93
+                                           ; SOURCE LINE # 94
+                                           ; SOURCE LINE # 95
+0000 C28C              CLR     TR0
+                                           ; SOURCE LINE # 96
+0002 C290              CLR     PWM_OUT
+                                           ; SOURCE LINE # 97
+0004 E4                CLR     A
+0005 F500        R     MOV     PWM_Enabled,A
+                                           ; SOURCE LINE # 98
+0007 22                RET     
+             ; FUNCTION PWM_Disable (END)
+
+             ; FUNCTION Timer0_Routine (BEGIN)
+0000 C0E0              PUSH    ACC
+                                           ; SOURCE LINE # 105
+                                           ; SOURCE LINE # 107
+0002 30900C            JNB     PWM_OUT,?C0013
+                                           ; SOURCE LINE # 108
+                                           ; SOURCE LINE # 109
+0005 C290              CLR     PWM_OUT
+                                           ; SOURCE LINE # 110
+0007 E500        R     MOV     A,LowReload
+0009 F58C              MOV     TH0,A
+                                           ; SOURCE LINE # 111
+000B E500        R     MOV     A,LowReload+01H
+000D F58A              MOV     TL0,A
+                                           ; SOURCE LINE # 112
+000F 800A              SJMP    ?C0015
+C51 COMPILER V9.60.7.0   PWM                                                               05/11/2026 19:00:22 PAGE 8   
+
+0011         ?C0013:
+                                           ; SOURCE LINE # 114
+                                           ; SOURCE LINE # 115
+0011 D290              SETB    PWM_OUT
+                                           ; SOURCE LINE # 116
+0013 E500        R     MOV     A,HighReload
+0015 F58C              MOV     TH0,A
+                                           ; SOURCE LINE # 117
+0017 E500        R     MOV     A,HighReload+01H
+0019 F58A              MOV     TL0,A
+                                           ; SOURCE LINE # 118
+                                           ; SOURCE LINE # 119
+001B         ?C0015:
+001B D0E0              POP     ACC
+001D 32                RETI    
+             ; FUNCTION Timer0_Routine (END)
+
+C51 COMPILER V9.60.7.0   PWM                                                               05/11/2026 19:00:22 PAGE 9   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+Timer0_Routine . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
+T0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
+AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
+PWM_Enabled. . . . . . . . . . . . . .  PUBLIC   DATA   U_CHAR   0000H  1
+T1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
+T2 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+PWM_Disable. . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
+LowReload. . . . . . . . . . . . . . .  STATIC   DATA   U_INT    0001H  2
+CurrentDuty. . . . . . . . . . . . . .  STATIC   DATA   U_CHAR   0003H  1
+TotalCount . . . . . . . . . . . . . .  STATIC   DATA   U_INT    0004H  2
+EXF2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CEH  1
+RD . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
+ES . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
+RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+INT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
+CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
+TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+INT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
+PWM_Enable . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+RCAP2H . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CBH  1
+PS . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
+SP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0081H  1
+T2EX . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0091H  1
+OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
+RCAP2L . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CAH  1
+C_T2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C9H  1
+WR . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
+_PWM_SetDuty . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  Duty . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  HighCount. . . . . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
+  LowCount . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0004H  2
+RCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
+TCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
+SBUF . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
+PCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0087H  1
+SCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
+TMOD . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0089H  1
+TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
+_PWM_SetFrequency. . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  Freq . . . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
+  HighCount. . . . . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
+  LowCount . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0004H  2
+IE0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0089H  1
+IE1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008BH  1
+B. . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F0H  1
+CP_RL2 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C8H  1
+ACC. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E0H  1
+ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
+ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
+TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
+C51 COMPILER V9.60.7.0   PWM                                                               05/11/2026 19:00:22 PAGE 10  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+ET2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ADH  1
+TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
+TF2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CFH  1
+RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
+TH0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008CH  1
+EX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
+IT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0088H  1
+TH1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008DH  1
+PWM_OUT. . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
+TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
+EX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
+IT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008AH  1
+TH2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CDH  1
+P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
+SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+TL0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008AH  1
+SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+TL1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008BH  1
+SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
+TL2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
+PT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
+PT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
+RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
+PT2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BDH  1
+TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
+RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
+TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
+TR2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
+PX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
+PX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
+DPH. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0083H  1
+HighReload . . . . . . . . . . . . . .  STATIC   DATA   U_INT    0006H  2
+DPL. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0082H  1
+EXEN2. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CBH  1
+REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+T2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
+PWM_Init . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+RXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
+TXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
+F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
+PSW. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D0H  1
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    271    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

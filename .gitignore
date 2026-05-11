@@ -1,0 +1,10 @@
+.eide
+.vscode
+.clang-format
+.DS_Store
+.clangd
+ADCProgram.code-workspace
+ADCProgram.uvgui.marti
+ADCProgram.uvopt
+upper_computer.py
+# 以上是一些常见的忽略文件和文件夹，可以根据实际情况进行修改和补充。

@@ -1,0 +1,61 @@
+[2026-05-11 18:37:07]	link failed !, exit code: 2
+   at unify_builder.Program.Main(String[] args_)
+---
+
+LX51 LINKER/LOCATER V4.66.100.0 - SN: K1DZC-F3UNHC
+COPYRIGHT Copyright (C) 1995-2021, Arm Limited or its Affiliates. All rights reserved.
+@d:\marti\Documents\HDU\Program\ADCProgram\build\Target_1\ADCProgram.lnp .\build\Target_1\.obj\STARTUP.o,.\build\Target_1\.obj\main.o TO .\build\Target_1\ADCProgram
+PRINT(.\build\Target_1\ADCProgram.map) REMOVEUNUSED
+
+*** ERROR L127: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  MAIN
+    MODULE:  D:\PROGRAMFILES\KEILC51\C51\LIB\C51S.LIB (?C_INIT)
+
+*** ERROR L128: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  MAIN
+    MODULE:  D:\PROGRAMFILES\KEILC51\C51\LIB\C51S.LIB (?C_INIT)
+    ADDRESS: 1000010H
+
+Program Size: data=9.0 xdata=0 const=0 code=144
+LX51 RUN COMPLETE.  0 WARNING(S),  2 ERROR(S)
+
+
+[2026-05-11 18:37:56]	[done]
+	build successfully !
+
+[2026-05-11 18:39:33]	[done]
+	build successfully !
+
+[2026-05-11 18:40:50]	[done]
+	build successfully !
+
+[2026-05-11 18:41:05]	compilation failed at : "d:\marti\Documents\HDU\Program\ADCProgram\Src\XPT2046.c", exit code: 2
+command: 
+  "d:\ProgramFiles\KeilC51\C51\BIN\C51.exe" .\Src\XPT2046.c OMF2 TABS(4) CODE NOCOND SYMBOLS INCDIR(../../../../../ProgramFiles/KeilC51/C51/INC/STC;../../../../../ProgramFiles/KeilC51/C51/INC) DEFINE(__UVISION_VERSION='526') OPTIMIZE(8,SPEED) SMALL ROM(LARGE) PRINT(.\build\Target_1\.obj\Src\XPT2046.lst) OBJECT(.\build\Target_1\.obj\Src\XPT2046.o)
+   at unify_builder.Program.Main(String[] args_)
+---
+C51 COMPILER V9.60.7.0 - SN: K1DZC-F3UNHC
+COPYRIGHT Copyright (C) 2012 - 2022 ARM Limited or its Affiliates. All rights reserved.
+*** WARNING C318 IN LINE 1 OF .\Src\XPT2046.c: can't open file 'REGG52.H'
+*** ERROR C202 IN LINE 5 OF .\Src\XPT2046.c: 'P3': undefined identifier
+*** ERROR C202 IN LINE 6 OF .\Src\XPT2046.c: 'P3': undefined identifier
+*** ERROR C202 IN LINE 7 OF .\Src\XPT2046.c: 'P3': undefined identifier
+*** ERROR C202 IN LINE 8 OF .\Src\XPT2046.c: 'P3': undefined identifier
+*** ERROR C202 IN LINE 19 OF .\Src\XPT2046.c: 'XPY2046_DCLK': undefined identifier
+*** ERROR C202 IN LINE 20 OF .\Src\XPT2046.c: 'XPY2046_CS': undefined identifier
+*** ERROR C202 IN LINE 23 OF .\Src\XPT2046.c: 'XPY2046_DIN': undefined identifier
+*** ERROR C202 IN LINE 24 OF .\Src\XPT2046.c: 'XPY2046_DCLK': undefined identifier
+*** ERROR C202 IN LINE 25 OF .\Src\XPT2046.c: 'XPY2046_DCLK': undefined identifier
+*** ERROR C202 IN LINE 29 OF .\Src\XPT2046.c: 'XPY2046_DCLK': undefined identifier
+*** ERROR C202 IN LINE 30 OF .\Src\XPT2046.c: 'XPY2046_DCLK': undefined identifier
+*** ERROR C202 IN LINE 31 OF .\Src\XPT2046.c: 'XPY2046_DOUT': undefined identifier
+*** ERROR C202 IN LINE 33 OF .\Src\XPT2046.c: 'XPY2046_CS': undefined identifier
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  13 ERROR(S)
+
+[2026-05-11 18:42:11]	[done]
+	build successfully !
+
+[2026-05-11 19:00:23]	[done]
+	build successfully !
+
