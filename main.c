@@ -5,60 +5,38 @@
 #include "Inc/strutils.h"
 
 /**
-  * @brief  将unsigned char转为ASCII字符串写入缓冲区
-  * @param  buf 目标缓冲区
-  * @param  val 要转换的值(0-255)
-  * @retval 写入的字符数
+  * @brief  发送一个float数据（小端序）
+  * @param  val 要发送的float值
+  * @retval 无
   */
-static unsigned char ByteToAscii(unsigned char *buf, unsigned char val)
+static void UART_SendFloat(float val)
 {
-	unsigned char len = 0;
-	if (val >= 100)
-	{
-		buf[len++] = '0' + val / 100;
-		val %= 100;
-		buf[len++] = '0' + val / 10;
-		val %= 10;
-		buf[len++] = '0' + val;
-	}
-	else if (val >= 10)
-	{
-		buf[len++] = '0' + val / 10;
-		val %= 10;
-		buf[len++] = '0' + val;
-	}
-	else
-	{
-		buf[len++] = '0' + val;
-	}
-	return len;
+	unsigned char *p = (unsigned char *)&val;
+	UART_SendByte(p[0]);
+	UART_SendByte(p[1]);
+	UART_SendByte(p[2]);
+	UART_SendByte(p[3]);
 }
 
 /**
-  * @brief  发送四通道ADC数据到上位机
-  * @param  ch0-ch3 四个通道的AD值
+  * @brief  以JustFloat格式发送四通道ADC数据
+  * @param  ch0-ch3 四个通道的AD值(0-255)
   * @retval 无
+  *
+  * JustFloat帧格式: [f0][f1][f2][f3][0x00][0x00][0x80][0x7F]
+  * 每个float占4字节，小端序，帧尾固定为 00 00 80 7F
   */
 static void SendADCData(unsigned char ch0, unsigned char ch1,
                         unsigned char ch2, unsigned char ch3)
 {
-	unsigned char buf[16];
-	unsigned char pos = 0;
-	unsigned char i;
-
-	pos += ByteToAscii(&buf[pos], ch0);
-	buf[pos++] = ',';
-	pos += ByteToAscii(&buf[pos], ch1);
-	buf[pos++] = ',';
-	pos += ByteToAscii(&buf[pos], ch2);
-	buf[pos++] = ',';
-	pos += ByteToAscii(&buf[pos], ch3);
-	buf[pos++] = '\n';
-
-	for (i = 0; i < pos; i++)
-	{
-		UART_SendByte(buf[i]);
-	}
+	UART_SendFloat((float)ch0);
+	UART_SendFloat((float)ch1);
+	UART_SendFloat((float)ch2);
+	UART_SendFloat((float)ch3);
+	UART_SendByte(0x00);
+	UART_SendByte(0x00);
+	UART_SendByte(0x80);
+	UART_SendByte(0x7F);
 }
 
 /**
